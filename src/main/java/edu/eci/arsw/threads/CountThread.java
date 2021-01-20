@@ -5,10 +5,25 @@
  */
 package edu.eci.arsw.threads;
 
+import java.util.ArrayList;
+import java.lang.*;
 /**
  *
  * @author hcadavid
  */
-public class CountThread {
+
+
+
+public class CountThread extends Thread{
+	public ArrayList<Integer> range;
+    public CountThread(ArrayList<Integer> r) {
+    	range = r;
+    }
     
+    public void run() {
+    	
+    	for(int i = range.get(0); i <= range.get(1); i++) {
+    		System.out.println(i);
+    	}
+    }
 }

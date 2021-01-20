@@ -5,6 +5,8 @@
  */
 package edu.eci.arsw.threads;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author hcadavid
@@ -12,7 +14,12 @@ package edu.eci.arsw.threads;
 public class CountThreadsMain {
     
     public static void main(String a[]){
-        
+        CountThread first = new CountThread (new ArrayList<Integer>() {{ add(0); add(99);}} );
+        CountThread second = new CountThread (new ArrayList<Integer>() {{ add(99); add(199);}} );
+        CountThread third = new CountThread (new ArrayList<Integer>() {{ add(200); add(299);}} );
+        first.run();
+        second.run();
+        third.run();
     }
     
 }

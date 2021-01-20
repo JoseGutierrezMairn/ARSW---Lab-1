@@ -21,10 +21,7 @@
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
-~~~
-Cuando se inicia los tres hilos con 'start()' la salida es en desorden, es decir, los hilos se ejecutan simultaneamente, esto quiere decir que se imprimen los resultados 
-al mismo tiempo, mientras que con 'run()' los hilos se ejecutan secuencialmente y la salida es ordenada, es decir que se ven los resultados de los hilos en el orden esperado.
-~~~
+
 **Parte II - Ejercicio Black List Search**
 
 
