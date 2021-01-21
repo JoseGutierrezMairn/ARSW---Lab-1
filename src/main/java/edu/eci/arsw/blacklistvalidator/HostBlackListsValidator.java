@@ -53,7 +53,9 @@ public class HostBlackListsValidator {
         	e+=segment+1;
         }
         
-        seekers.get(n-1).join();
+        for (Seeker s : seekers) {
+        	s.join();
+        }
         for (Seeker s : seekers) {
         	checkedListsCount+= s.getCheckedListsCount();
         	ocurrencesCount+= s.getOccurrences();
