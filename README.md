@@ -66,27 +66,101 @@ La estrategia de paralelismo antes implementada es ineficiente en ciertos casos,
 
 **Parte III - Evaluación de Desempeño**
 
-A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
+A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):  
+~~~
+Para tomar el tiempo de ejecución para cada caso se modificó el método main de la siguiente manera:
+~~~
 
+```
+java
+public static void main(String a[]) throws InterruptedException{
+    	long startTime = System.currentTimeMillis();
+        HostBlackListsValidator hblv=new HostBlackListsValidator();
+        List<Integer> blackListOcurrences=hblv.checkHost("202.24.34.55",1);
+        System.out.println("The host was found in the following blacklists:"+blackListOcurrences);
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
+    }
+```
 1. Un solo hilo.
-2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).
-3. Tantos hilos como el doble de núcleos de procesamiento.
-4. 50 hilos.
-5. 100 hilos.
+![](img/1.png)
+~~~
+Tiempo de ejecución: 153.874 segundos
+Número de hilos: 1
+~~~
+![1 hilos](img/uno.png)
+2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).  
+![](img/2.png)
+~~~
+Tiempo de ejecución: 19.398 segundos
+Número de hilos: 8 
+Para saber el número de núcleos de procesamiento se hizo lo siguiente:
+~~~
+```
+java
+int n = Runtime.getRuntime().availableProcessors();
+```
+![8 hilos](img/ocho.png)
+3. Tantos hilos como el doble de núcleos de procesamiento.  
+![](img/3.png)
+~~~
+Tiempo de ejecución: 9.867 segundos
+Número de hilos: 16
+~~~  
+![16 hilos](img/p2.png)
+4. 50 hilos.  
+~~~
+Tiempo de ejecución: 3.211 segundos
+Número de hilos: 50
+El programa jVisualVM dejó de responder a partir de los 50 hilos
+~~~
+![50 hilos](img/cincuenta.png)
+5. 100 hilos.  
+~~~
+Tiempo de ejecución: 1.743 segundos
+Número de hilos: 100
+El programa jVisualVM dejó de responder a partir de los 50 hilos
+~~~
+![100 hilos](img/cien.png)
 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
 
-
-
+~~~
+A continuación veremos dos gráficas de la representación de los datos  
+tiempo vs hilos
+~~~
+![Figura1](img/grafica1.png)
+![Figura2](img/grafica2.png)
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
-	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
+	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.  
+	~~~
+	Esto es cierto, pero el inconveniente es que al aumentar tanto los hilos se están usando más recursos de la máquina donde se está  
+	ejecutando el programa, es decir, se puede incrementar a n tanto como la máquina rinda, es por eso que se tiene un límite  
+	donde se llega al máximo rendimiento en cuanto a la cantidad de hilos, a partir de ese punto máximo el rendimiento empieza a bajar  
+	porque como mencioné se empiezan a consumir más recursos y la máquina empieza a ser ineficiente por la ausencia de estos  
+	e incluso puede que los hilos completen sus objetivos de manera más rápida pero al ser tantos el proceso principal se se demora más  
+	tiempo creando estos hilos, esto implica que toca esperar al proceso principal a que acabe de crear hilos y una vez creados esperar  
+	a que los últimos completen su funcion y lleguen a sus objetivos para que el proceso inicial continue con su trayecto, esto claramente  
+	en caso que el proceso principal se encuentre sincronizado con los hilos, es decir, que los espere a que terminen todos para continuar.
+	~~~
 
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
+~~~
+el resultado fue que cuando se usaron el doble de hilos que de núcleos el tiempo de ejecución fue aproximadamente la mitad del tiempo de  
+ejecución de cuando se usaron el mismo número de hilos como núcleos de procesamiento
+en la gráfica (Figura1) se puede apreciar entre esos dos casos una recta con pendiente negativa, ya que el resultado fue la mitad del  
+tiempo de ejecución del anterior.
+~~~
 
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
-
+~~~
+1. Si se aplicaría mejor, pues la ley de ahmdahls buscar encontrar la mayor frecuencia a la que se ejecutan los núcleos, en este caso  
+al ejecutar el programa en 100 máquinas hipotéticas tendría un mejor rendimiento, pues el procesador de cada máquina se está usando  
+a su mayor frecuencia, lo cual cumple con la ley de ahmdahls
+2. No mejoraría, porque los hilos comparten recursos como memoria, variables, esto no dejaría usar los núcleos a su máxima frecuencia.
+~~~
 
 

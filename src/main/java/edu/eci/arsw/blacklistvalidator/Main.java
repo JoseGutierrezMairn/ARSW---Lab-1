@@ -14,10 +14,14 @@ import java.util.List;
 public class Main {
     
     public static void main(String a[]) throws InterruptedException{
+    	//int n = Runtime.getRuntime().availableProcessors(); Número de núcleos de procesamiento
+    	//System.out.println(n);
+    	long startTime = System.currentTimeMillis();
         HostBlackListsValidator hblv=new HostBlackListsValidator();
-        List<Integer> blackListOcurrences=hblv.checkHost("202.24.34.55",50);
+        List<Integer> blackListOcurrences=hblv.checkHost("202.24.34.55",200);
         System.out.println("The host was found in the following blacklists:"+blackListOcurrences);
-        
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
     }
     
 }

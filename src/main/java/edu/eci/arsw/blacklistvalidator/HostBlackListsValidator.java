@@ -52,7 +52,6 @@ public class HostBlackListsValidator {
         	b = e + 1;
         	e+=segment+1;
         }
-        
         for (Seeker s : seekers) {
         	s.join();
         }
@@ -72,7 +71,6 @@ public class HostBlackListsValidator {
         }                
         
         LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
-        
         return blackListOcurrences;
     }
     
