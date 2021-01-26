@@ -71,8 +71,8 @@ A partir de lo anterior, implemente la siguiente secuencia de experimentos para 
 Para tomar el tiempo de ejecución para cada caso se modificó el método main de la siguiente manera:
 ~~~
 
-```
-java
+```java
+
 public static void main(String a[]) throws InterruptedException{
     	long startTime = System.currentTimeMillis();
         HostBlackListsValidator hblv=new HostBlackListsValidator();
@@ -83,45 +83,44 @@ public static void main(String a[]) throws InterruptedException{
     }
 ```
 1. Un solo hilo.
-![](img/1.png)
+![](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/1.PNG?raw=true)
 ~~~
 Tiempo de ejecución: 153.874 segundos
 Número de hilos: 1
 ~~~
-![1 hilos](img/uno.png)
+![1 hilos](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/uno.PNG?raw=true)
 2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).  
-![](img/2.png)
+![](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/2.PNG?raw=true)
 ~~~
 Tiempo de ejecución: 19.398 segundos
 Número de hilos: 8 
 Para saber el número de núcleos de procesamiento se hizo lo siguiente:
 ~~~
-```
-java
+```java
 int n = Runtime.getRuntime().availableProcessors();
 ```
-![8 hilos](img/ocho.png)
+![8 hilos](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/ocho.PNG?raw=true)
 3. Tantos hilos como el doble de núcleos de procesamiento.  
-![](img/3.png)
+![](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/3.PNG?raw=true)
 ~~~
 Tiempo de ejecución: 9.867 segundos
 Número de hilos: 16
 ~~~  
-![16 hilos](img/p2.png)
+![16 hilos](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/p2.PNG?raw=true)
 4. 50 hilos.  
 ~~~
 Tiempo de ejecución: 3.211 segundos
 Número de hilos: 50
 El programa jVisualVM dejó de responder a partir de los 50 hilos
 ~~~
-![50 hilos](img/cincuenta.png)
+![50 hilos](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/cincuenta.PNG?raw=true)
 5. 100 hilos.  
 ~~~
 Tiempo de ejecución: 1.743 segundos
 Número de hilos: 100
 El programa jVisualVM dejó de responder a partir de los 50 hilos
 ~~~
-![100 hilos](img/cien.png)
+![100 hilos](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/cien.PNG?raw=true)
 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 
@@ -131,8 +130,8 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 A continuación veremos dos gráficas de la representación de los datos  
 tiempo vs hilos
 ~~~
-![Figura1](img/grafica1.png)
-![Figura2](img/grafica2.png)
+![Figura1](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/grafica1.PNG?raw=true)  
+![Figura2](https://github.com/JoseGutierrezMairn/ARSW---Lab-1/blob/master/img/grafica2.PNG?raw=true)
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
 	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.  
